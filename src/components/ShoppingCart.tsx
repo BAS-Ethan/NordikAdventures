@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Separator } from './ui/separator';
-import { ShoppingCart, Trash2, Plus, Minus, CreditCard } from 'lucide-react';
+import { ShoppingCart as ShoppingCartIcon, Trash2, Plus, Minus, CreditCard } from 'lucide-react';
 import { Alert, AlertDescription } from './ui/alert';
 import { mockOrders, Order, OrderItem } from '../data';
 
@@ -61,7 +61,7 @@ export function ShoppingCart({ onCheckout }: ShoppingCartProps) {
     return (
       <Card>
         <CardContent className="py-12 text-center">
-          <ShoppingCart className="w-16 h-16 mx-auto text-slate-300 mb-4" />
+          <ShoppingCartIcon className="w-16 h-16 mx-auto text-slate-300 mb-4" />
           <CardTitle className="mb-2">Votre panier est vide</CardTitle>
           <CardDescription>
             Ajoutez des produits depuis le catalogue pour commencer vos achats

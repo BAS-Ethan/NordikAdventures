@@ -4,8 +4,20 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?logo=typescript)
 ![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?logo=vite)
 ![Tailwind](https://img.shields.io/badge/Tailwind-4.0-38B2AC?logo=tailwind-css)
+![Status](https://img.shields.io/badge/Status-Ready_to_Use-success)
 
 Système de Gestion Intégré complet pour Nordik Adventures, PME québécoise spécialisée dans les produits de plein air.
+
+## ⚡ Démarrage rapide
+
+```bash
+npm install
+npm run dev
+```
+
+➡️ **http://localhost:3000** - Utilisez `admin@nordik.ca` / `admin123` pour vous connecter
+
+📖 **Nouveau ?** Lisez [`START_HERE.md`](./START_HERE.md) pour un guide visuel complet !
 
 ## 🎯 Configuration minimale
 
