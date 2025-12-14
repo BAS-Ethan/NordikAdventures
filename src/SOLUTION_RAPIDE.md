@@ -1,10 +1,59 @@
-# 🚨 Solution rapide aux erreurs d'imports
+# 🚨 Solutions Rapides aux Problèmes Courants
 
-## Problème
+## 🎨 Problème : L'affichage se fait sans CSS / Pas de styles
 
-Les composants UI utilisent des imports avec versions (ex: `"@radix-ui/react-slot@1.1.2"`) qui ne fonctionnent pas dans votre environnement Vite.
+**Symptôme** : Quand vous lancez `npm run dev`, l'application s'affiche mais sans aucun style CSS (tout est blanc et sans mise en forme).
 
-## Solution automatique (RECOMMANDÉE)
+**Cause** : Le fichier `/styles/globals.css` ne contient pas l'import de Tailwind CSS v4.
+
+**✅ Solution** :
+
+Le fichier `globals.css` doit commencer par :
+```css
+@import "tailwindcss";
+```
+
+Ce problème a été corrigé ! Si vous l'avez encore :
+
+1. Ouvrez `/styles/globals.css`
+2. Vérifiez que la **première ligne** est : `@import "tailwindcss";`
+3. Sauvegardez le fichier
+4. Rechargez la page dans le navigateur
+
+**Note** : Avec Tailwind CSS v4, l'import `@import "tailwindcss";` est OBLIGATOIRE au début du fichier CSS principal, sinon les directives `@apply`, `@layer` et `@theme` ne fonctionnent pas.
+
+---
+
+## 📦 Problème : Erreurs de dépendances manquantes
+
+**Symptôme** : Quand vous lancez `npm run dev`, vous obtenez des erreurs indiquant que certaines dépendances sont manquantes.
+
+**Cause** : Le fichier `package.json` ne contient pas toutes les dépendances nécessaires ou certaines dépendances n'ont pas été installées.
+
+**✅ Solution** :
+
+1. Vérifiez que le fichier `package.json` contient toutes les dépendances nécessaires.
+2. Exécutez la commande suivante pour installer toutes les dépendances :
+   ```bash
+   npm install
+   ```
+
+Ce problème a été corrigé ! Si vous l'avez encore :
+
+1. Ouvrez le fichier `package.json`
+2. Vérifiez que toutes les dépendances nécessaires sont listées.
+3. Exécutez `npm install` pour installer les dépendances manquantes.
+4. Rechargez la page dans le navigateur
+
+---
+
+## 🚨 Problème : Erreurs d'imports
+
+**Symptôme** : Quand vous lancez `npm run dev`, vous obtenez des erreurs indiquant que certains imports ne sont pas trouvés.
+
+**Cause** : Les composants UI utilisent des imports avec versions (ex: `"@radix-ui/react-slot@1.1.2"`) qui ne fonctionnent pas dans votre environnement Vite.
+
+**✅ Solution automatique (RECOMMANDÉE)** :
 
 ### Option 1 : Script Python
 

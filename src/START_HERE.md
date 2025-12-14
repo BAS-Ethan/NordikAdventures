@@ -38,6 +38,23 @@ npm run dev
 
 ---
 
+## 🎨 Si l'application s'affiche sans CSS
+
+Si l'application s'affiche mais sans aucun style (tout est blanc et sans mise en forme) :
+
+**Cause** : Le fichier `/styles/globals.css` manque l'import de Tailwind.
+
+**✅ Ce problème a été corrigé !** Le fichier commence maintenant par `@import "tailwindcss";`
+
+**Si le problème persiste** :
+1. Arrêtez le serveur (`Ctrl+C`)
+2. Rechargez avec `npm run dev`
+3. Rechargez la page dans le navigateur (`F5`)
+
+📖 Plus de détails dans [`FIX_CSS.md`](./FIX_CSS.md)
+
+---
+
 ## 🔐 Connexion
 
 Utilisez un de ces 3 comptes :
