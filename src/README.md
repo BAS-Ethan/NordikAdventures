@@ -1,8 +1,32 @@
 # Nordik Adventures - Système PGI (ERP)
 
+![React](https://img.shields.io/badge/React-18-blue?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?logo=vite)
+![Tailwind](https://img.shields.io/badge/Tailwind-4.0-38B2AC?logo=tailwind-css)
+
 Système de Gestion Intégré complet pour Nordik Adventures, PME québécoise spécialisée dans les produits de plein air.
 
-## 🚀 Démarrage rapide
+## 🎯 Configuration minimale
+
+✅ **3 fichiers de config uniquement**
+- `vite.config.ts` (8 lignes)
+- `tsconfig.json` (14 lignes)  
+- `package.json`
+
+✅ **Zéro complexité**
+- Pas de PostCSS config
+- Pas de Tailwind config séparé
+- Pas de fichiers de lint/format
+- Architecture la plus simple possible
+
+## 🛠️ Technologies
+
+- **React 18** + **TypeScript**
+- **Vite** - Build tool
+- **Tailwind CSS v4**
+
+## 📦 Installation et démarrage
 
 ```bash
 # 1. Installer les dépendances
@@ -14,11 +38,13 @@ npm run dev
 
 L'application sera accessible sur **http://localhost:3000**
 
-## 📦 Build de production
+## 🚀 Build de production
 
 ```bash
 npm run build
 ```
+
+Les fichiers de production seront dans le dossier `dist/`
 
 ## 🔐 Comptes de test
 
@@ -40,7 +66,7 @@ npm run build
 ## ✨ Fonctionnalités
 
 ### 📦 Module - Gestion des produits et stocks
-- ✅ Page d'affichage des produits (liste dynamique)
+- ✅ Liste dynamique des produits (8 produits de plein air)
 - ✅ Fiche produit détaillée (photo, prix, description, quantité, catégorie, fournisseur, délai)
 - ✅ Mise à jour automatique du stock après une vente
 - ✅ Alerte de réapprovisionnement (si stock ≤ seuil)
@@ -56,7 +82,7 @@ npm run build
 
 ### 👥 Module - Gestion de la relation client (CRM)
 - ✅ Inscription et connexion des clients
-- ✅ Accès au catalogue de produits
+- ✅ Accès au catalogue de produits avec recherche et filtres
 - ✅ Panier d'achats avec achat/paiement en ligne
 - ✅ Gestion du statut client (actif / inactif)
 - ✅ Historique des commandes du client
@@ -72,17 +98,7 @@ npm run build
 - ✅ Code structuré et bien commenté
 - ✅ Architecture simple et maintenable
 
-## 🛠️ Technologies
-
-- **React 18** + TypeScript
-- **Vite** - Build tool rapide
-- **Tailwind CSS** - Styles
-- **Radix UI** - Composants accessibles
-- **Lucide React** - Icônes
-- **Recharts** - Graphiques
-- **Context API** - Gestion d'état
-
-## 📂 Structure du projet
+## 📂 Structure du projet (simplifiée)
 
 ```
 nordik-adventures-erp/
@@ -100,11 +116,15 @@ nordik-adventures-erp/
 ├── contexts/               # Contextes React
 │   ├── AuthContext.tsx     # Authentification et session
 │   └── CartContext.tsx     # Panier d'achats
-├── data.ts                 # Données mock (produits, utilisateurs, commandes)
 ├── styles/                 # Styles CSS
+│   └── globals.css         # Styles globaux + Tailwind
+├── data.ts                 # Données mock
 ├── App.tsx                 # Composant racine
-└── main.tsx                # Point d'entrée
-
+├── main.tsx                # Point d'entrée
+├── index.html              # HTML de base
+├── vite.config.ts          # Configuration Vite (minimal)
+├── tsconfig.json           # Configuration TypeScript (minimal)
+└── package.json            # Dépendances
 ```
 
 ## 📊 Données de démonstration
@@ -115,21 +135,28 @@ Le système contient des données mock pour démonstration:
 - **2 commandes** exemples avec historique
 - **Activités client** horodatées
 
+## ⚙️ Configuration minimale
+
+Le projet utilise une configuration minimale :
+- **3 fichiers de config** uniquement : `vite.config.ts`, `tsconfig.json`, `package.json`
+- **Tailwind v4** : configuration dans `styles/globals.css` (pas de fichiers de config supplémentaires)
+- **Pas de PostCSS config** ni **Tailwind config** séparés
+
 ## 🎨 Personnalisation
 
 Pour modifier les couleurs du thème, éditez `/styles/globals.css`
 
-### Taxes québécoises
+### Taxes québécoises configurées
 - TPS (fédérale): 5%
 - TVQ (provinciale): 9.975%
 
-## 🔮 Prochaines étapes
+## 🔮 Évolution vers production
 
-Pour connecter ce système à une vraie base de données, vous pouvez utiliser Supabase pour:
-- Authentification sécurisée
+Pour connecter à une vraie base de données, vous pouvez utiliser Supabase pour:
+- Authentification sécurisée avec JWT
 - Base de données PostgreSQL
-- Storage pour les images
-- API temps réel
+- Storage pour les images produits
+- API temps réel pour les mises à jour
 
 ---
 
