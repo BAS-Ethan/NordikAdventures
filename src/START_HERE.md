@@ -9,11 +9,32 @@ Ce document vous guide pour démarrer l'application en **2 minutes chrono**.
 ## ⚡ Démarrage rapide (2 commandes)
 
 ```bash
-npm install
+# Supprimer les anciennes installations et réinstaller
+rm -rf node_modules package-lock.json && npm install
+
+# Lancer l'application
 npm run dev
 ```
 
 ➡️ Ouvrez http://localhost:3000
+
+---
+
+## 🔧 Si vous avez des erreurs de dépendances
+
+Le `package.json` a été mis à jour. Si vous voyez des erreurs comme :
+```
+Error: @radix-ui/react-progress could not be resolved
+```
+
+**Solution** : Réinstallez les dépendances
+```bash
+rm -rf node_modules package-lock.json
+npm install
+npm run dev
+```
+
+📖 Plus de détails dans [`INSTALL_FIX.md`](./INSTALL_FIX.md)
 
 ---
 
