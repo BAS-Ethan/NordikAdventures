@@ -114,7 +114,6 @@ export function AdminOrders() {
         </Card>
       </div>
 
-      {/* Table des commandes */}
       <Card>
         <CardHeader>
           <CardTitle>Gestion des commandes</CardTitle>
@@ -204,7 +203,6 @@ export function AdminOrders() {
         </CardContent>
       </Card>
 
-      {/* Dialog détails de commande */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
@@ -236,7 +234,6 @@ export function AdminOrders() {
 
               <Separator />
 
-              {/* Articles */}
               <div>
                 <h4 className="font-semibold mb-3">Articles commandés</h4>
                 <div className="space-y-2">
@@ -261,7 +258,6 @@ export function AdminOrders() {
 
               <Separator />
 
-              {/* Totaux */}
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-slate-600">Sous-total</span>

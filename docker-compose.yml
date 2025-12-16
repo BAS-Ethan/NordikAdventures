@@ -43,7 +43,7 @@ services:
       MYSQL_ROOT_PASSWORD: "Rugby/2004/"
       MYSQL_DATABASE: nordik_adventures
     ports:
-      - "3306:3306"
+      - "8001:8001"
     volumes:
       - db-data:/var/lib/mysql
     networks:

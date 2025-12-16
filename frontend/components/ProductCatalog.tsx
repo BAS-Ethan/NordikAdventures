@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { mockProducts, Product } from "../data";
 import {
   Card,
   CardContent,
@@ -22,9 +21,35 @@ import { useCart } from "../contexts/CartContext";
 import { ShoppingCart, AlertTriangle, Package, Search } from "lucide-react";
 import { Alert, AlertDescription } from "./ui/alert";
 
+export interface Product {
+  id: string;
+  name: string;
+  code: string;
+  description: string;
+  price: number;
+  stock: number;
+  reorderLevel: number;
+  category: string;
+  image: string;
+  status: "active" | "inactive";
+}
+
 interface ProductCatalogProps {
   onProductClick: (product: Product) => void;
 }
+
+const mapApiProductToProduct = (apiProduct: any): Product => ({
+  id: String(apiProduct.produit_id),
+  name: apiProduct.nom ?? "",
+  code: apiProduct.sku ?? "",
+  description: apiProduct.description ?? "",
+  price: Number(apiProduct.prix_vente ?? 0),
+  stock: Number(apiProduct.quantite ?? 0),
+  reorderLevel: Number(apiProduct.seuil_reappro ?? 0),
+  category: apiProduct.categorie_nom ?? "Autre",
+  image: apiProduct.image_url ?? "/placeholder.jpg",
+  status: apiProduct.actif === 1 ? "active" : "active",
+});
 
 export function ProductCatalog({ onProductClick }: ProductCatalogProps) {
   const [products, setProducts] = useState<Product[]>([]);
@@ -36,30 +61,30 @@ export function ProductCatalog({ onProductClick }: ProductCatalogProps) {
   useEffect(() => {
     fetch("http://localhost:8000/produits/produits.php")
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("Erreur API");
-        }
+        if (!res.ok) throw new Error("Erreur API");
         return res.json();
       })
-      .then((data: Product[]) => {
-        setProducts(data);
+      .then((data) => {
+        console.log(data.data.produits[0].quantite);
+        const mappedProducts = data.data.produits.map(mapApiProductToProduct);
+        setProducts(mappedProducts);
       })
       .catch(() => {
         console.log("Impossible de charger les produits");
       });
   }, []);
 
-  // Filtrer les produits
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.code.toLowerCase().includes(searchTerm.toLowerCase());
+
     const matchesCategory =
       categoryFilter === "all" || product.category === categoryFilter;
+
     return matchesSearch && matchesCategory && product.status === "active";
   });
 
-  // Obtenir les catégories uniques
   const categories = Array.from(new Set(products.map((p) => p.category)));
 
   const handleAddToCart = (product: Product, e: React.MouseEvent) => {
@@ -90,6 +115,7 @@ export function ProductCatalog({ onProductClick }: ProductCatalogProps) {
                 className="pl-10"
               />
             </div>
+
             <Select value={categoryFilter} onValueChange={setCategoryFilter}>
               <SelectTrigger>
                 <SelectValue placeholder="Toutes les catégories" />
@@ -107,7 +133,6 @@ export function ProductCatalog({ onProductClick }: ProductCatalogProps) {
         </CardContent>
       </Card>
 
-      {/* Grille de produits */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {filteredProducts.map((product) => (
           <Card
@@ -116,50 +141,38 @@ export function ProductCatalog({ onProductClick }: ProductCatalogProps) {
             onClick={() => onProductClick(product)}
           >
             <CardHeader className="p-0">
-              <div className="relative">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-48 object-cover rounded-t-lg"
-                />
-                {product.stock <= product.reorderLevel && (
-                  <Badge className="absolute top-2 right-2 bg-orange-500">
-                    <AlertTriangle className="w-3 h-3 mr-1" />
-                    Stock bas
-                  </Badge>
-                )}
-              </div>
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-48 object-cover rounded-t-lg"
+              />
             </CardHeader>
+
             <CardContent className="pt-4">
-              <div className="space-y-2">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm text-slate-500">{product.code}</p>
-                    <CardTitle className="text-lg">{product.name}</CardTitle>
-                  </div>
+              <p className="text-sm text-slate-500">{product.code}</p>
+              <CardTitle className="text-lg">{product.name}</CardTitle>
+
+              <CardDescription className="line-clamp-2">
+                {product.description}
+              </CardDescription>
+
+              <div className="flex items-center justify-between pt-2">
+                <div>
+                  <p className="text-2xl font-bold text-emerald-700">
+                    {product.price.toFixed(2)} $
+                  </p>
+                  <p className="text-sm text-slate-500 flex items-center gap-1">
+                    <Package className="w-3 h-3" />
+                    Stock: {product.stock}
+                  </p>
                 </div>
-                <CardDescription className="line-clamp-2">
-                  {product.description}
-                </CardDescription>
-                <div className="flex items-center justify-between pt-2">
-                  <div>
-                    <p className="text-2xl font-bold text-emerald-700">
-                      {product.price.toFixed(2)} $
-                    </p>
-                    <p className="text-sm text-slate-500 flex items-center gap-1">
-                      <Package className="w-3 h-3" />
-                      Stock: {product.stock}
-                    </p>
-                  </div>
-                  <Badge variant={product.stock > 0 ? "default" : "secondary"}>
-                    {product.category}
-                  </Badge>
-                </div>
+                <Badge>{product.category}</Badge>
               </div>
             </CardContent>
+
             <CardFooter>
               <Button
-                className="w-full bg-linear-to-r from-emerald-700 to-teal-600"
+                className="w-full"
                 onClick={(e) => handleAddToCart(product, e)}
                 disabled={product.stock === 0}
               >
@@ -179,12 +192,11 @@ export function ProductCatalog({ onProductClick }: ProductCatalogProps) {
         </Card>
       )}
 
-      {/* Notification ajout au panier */}
       {addedToCart && (
         <div className="fixed bottom-4 right-4 z-50">
-          <Alert className="bg-emerald-700 text-white border-emerald-800">
+          <Alert className="bg-emerald-700 text-white">
             <ShoppingCart className="h-4 w-4" />
-            <AlertDescription>Produit ajouté au panier!</AlertDescription>
+            <AlertDescription>Produit ajouté au panier !</AlertDescription>
           </Alert>
         </div>
       )}
