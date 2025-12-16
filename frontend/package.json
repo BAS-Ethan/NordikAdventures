@@ -4,7 +4,7 @@
   "description": "Système PGI pour Nordik Adventures",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host --port 3000",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
