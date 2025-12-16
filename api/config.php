@@ -10,7 +10,7 @@
 // PARAMÈTRES DE CONNEXION
 // ============================================================================
 
-define('DB_HOST', 'localhost');        // Hôte MySQL (généralement localhost)
+define('DB_HOST', 'db');        // Hôte MySQL (généralement localhost)
 define('DB_NAME', 'nordik_adventures'); // Nom de la base de données
 define('DB_USER', 'root');              // Utilisateur MySQL
 define('DB_PASS', 'Rugby/2004/');                  // Mot de passe MySQL (vide par défaut avec XAMPP)

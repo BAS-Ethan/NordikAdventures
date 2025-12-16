@@ -34,7 +34,7 @@ try {
         ");
         $stmt->execute([$produit_id]);
         $produit = $stmt->fetch();
-        
+
         if (!$produit) {
             errorResponse('Produit non trouvé', 404);
         }

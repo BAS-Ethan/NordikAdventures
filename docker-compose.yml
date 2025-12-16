@@ -1,4 +1,5 @@
 name: PGI
+
 services:
   frontend:
     container_name: frontend
@@ -11,11 +12,45 @@ services:
       - HOST=0.0.0.0
     ports:
       - "3000:3000"
-    networks:
-      - pgi-networks
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    networks:
+      - pgi-networks
+    depends_on:
+      - api
+
+  api:
+    container_name: api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    volumes:
+      - ./api:/var/www/html
+    networks:
+      - pgi-networks
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: "Rugby/2004/"
+      MYSQL_DATABASE: nordik_adventures
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - pgi-networks
 
 networks:
   pgi-networks:
+
+volumes:
+  db-data:

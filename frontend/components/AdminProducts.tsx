@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { mockProducts, Product } from "../data";
 import {
   Card,
@@ -40,10 +40,27 @@ import { Plus, Edit, Power, AlertTriangle, Package } from "lucide-react";
 import { Alert, AlertDescription } from "./ui/alert";
 
 export function AdminProducts() {
-  const [products, setProducts] = useState(mockProducts);
+  const [products, setProducts] = useState<Product[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [formData, setFormData] = useState<Partial<Product>>({});
+
+  useEffect(() => {
+    fetch("http://localhost:8000/produits/produits.php")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Erreur API");
+        }
+        return res.json();
+      })
+      .then((data: Product[]) => {
+        console.log(data);
+        setProducts(data.data.produits);
+      })
+      .catch(() => {
+        console.log("Impossible de charger les produits");
+      });
+  }, []);
 
   const handleOpenDialog = (product?: Product) => {
     if (product) {

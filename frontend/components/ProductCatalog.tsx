@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { mockProducts, Product } from "../data";
 import {
   Card,
@@ -27,11 +27,27 @@ interface ProductCatalogProps {
 }
 
 export function ProductCatalog({ onProductClick }: ProductCatalogProps) {
-  const [products] = useState(mockProducts);
+  const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [addedToCart, setAddedToCart] = useState<string | null>(null);
   const { addToCart } = useCart();
+
+  useEffect(() => {
+    fetch("http://localhost:8000/produits/produits.php")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Erreur API");
+        }
+        return res.json();
+      })
+      .then((data: Product[]) => {
+        setProducts(data);
+      })
+      .catch(() => {
+        console.log("Impossible de charger les produits");
+      });
+  }, []);
 
   // Filtrer les produits
   const filteredProducts = products.filter((product) => {
