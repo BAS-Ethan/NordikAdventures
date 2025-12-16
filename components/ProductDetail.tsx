@@ -1,14 +1,29 @@
-import { useState } from 'react';
-import { Product } from '../data';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { useCart } from '../contexts/CartContext';
-import { useAuth } from '../contexts/AuthContext';
-import { ArrowLeft, ShoppingCart, Package, Truck, AlertTriangle, CheckCircle2, Store } from 'lucide-react';
-import { Alert, AlertDescription } from './ui/alert';
+import { useState } from "react";
+import { Product } from "../data";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { useCart } from "../contexts/CartContext";
+import { useAuth } from "../contexts/AuthContext";
+import {
+  ArrowLeft,
+  ShoppingCart,
+  Package,
+  Truck,
+  AlertTriangle,
+  CheckCircle2,
+  Store,
+} from "lucide-react";
+import { Alert, AlertDescription } from "./ui/alert";
 
 interface ProductDetailProps {
   product: Product;
@@ -59,7 +74,10 @@ export function ProductDetail({ product, onBack }: ProductDetailProps) {
                   <p className="text-sm text-slate-500 mb-1">{product.code}</p>
                   <CardTitle className="text-3xl">{product.name}</CardTitle>
                 </div>
-                <Badge variant={product.stock > 0 ? 'default' : 'secondary'} className="text-base px-3 py-1">
+                <Badge
+                  variant={product.stock > 0 ? "default" : "secondary"}
+                  className="text-base px-3 py-1"
+                >
                   {product.category}
                 </Badge>
               </div>
@@ -106,7 +124,9 @@ export function ProductDetail({ product, onBack }: ProductDetailProps) {
                     <AlertTriangle className="w-5 h-5 text-slate-600" />
                     <div>
                       <p className="text-sm text-slate-500">Seuil réappro.</p>
-                      <p className="font-semibold">{product.reorderLevel} unités</p>
+                      <p className="font-semibold">
+                        {product.reorderLevel} unités
+                      </p>
                     </div>
                   </div>
                 )}
@@ -117,9 +137,11 @@ export function ProductDetail({ product, onBack }: ProductDetailProps) {
                 <Alert variant="destructive">
                   <AlertTriangle className="h-4 w-4" />
                   <AlertDescription>
-                    <strong>Alerte de réapprovisionnement!</strong><br />
-                    Le stock est en dessous du seuil de réapprovisionnement ({product.reorderLevel} unités).
-                    Contactez {product.supplier} pour commander.
+                    <strong>Alerte de réapprovisionnement!</strong>
+                    <br />
+                    Le stock est en dessous du seuil de réapprovisionnement (
+                    {product.reorderLevel} unités). Contactez {product.supplier}{" "}
+                    pour commander.
                   </AlertDescription>
                 </Alert>
               )}
@@ -136,11 +158,13 @@ export function ProductDetail({ product, onBack }: ProductDetailProps) {
                         min="1"
                         max={product.stock}
                         value={quantity}
-                        onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
+                        onChange={(e) =>
+                          setQuantity(parseInt(e.target.value) || 1)
+                        }
                         className="w-24"
                       />
                       <Button
-                        className="flex-1 bg-gradient-to-r from-emerald-700 to-teal-600"
+                        className="flex-1 bg-linear-to-r from-emerald-700 to-teal-600"
                         onClick={handleAddToCart}
                         disabled={quantity > product.stock}
                       >
@@ -158,8 +182,8 @@ export function ProductDetail({ product, onBack }: ProductDetailProps) {
               ) : (
                 <Alert>
                   <AlertDescription>
-                    Ce produit est actuellement en rupture de stock.
-                    Délai de livraison du fournisseur: {product.deliveryTime}
+                    Ce produit est actuellement en rupture de stock. Délai de
+                    livraison du fournisseur: {product.deliveryTime}
                   </AlertDescription>
                 </Alert>
               )}
@@ -169,7 +193,9 @@ export function ProductDetail({ product, onBack }: ProductDetailProps) {
                 <Alert className="bg-emerald-50 border-emerald-200">
                   <CheckCircle2 className="h-4 w-4 text-emerald-700" />
                   <AlertDescription className="text-emerald-700">
-                    {quantity} {quantity > 1 ? 'produits ajoutés' : 'produit ajouté'} au panier!
+                    {quantity}{" "}
+                    {quantity > 1 ? "produits ajoutés" : "produit ajouté"} au
+                    panier!
                   </AlertDescription>
                 </Alert>
               )}

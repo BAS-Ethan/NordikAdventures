@@ -1,13 +1,26 @@
-import { useState } from 'react';
-import { mockProducts, Product } from '../data';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { Input } from './ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { useCart } from '../contexts/CartContext';
-import { ShoppingCart, AlertTriangle, Package, Search } from 'lucide-react';
-import { Alert, AlertDescription } from './ui/alert';
+import { useState } from "react";
+import { mockProducts, Product } from "../data";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import { Input } from "./ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { useCart } from "../contexts/CartContext";
+import { ShoppingCart, AlertTriangle, Package, Search } from "lucide-react";
+import { Alert, AlertDescription } from "./ui/alert";
 
 interface ProductCatalogProps {
   onProductClick: (product: Product) => void;
@@ -15,21 +28,23 @@ interface ProductCatalogProps {
 
 export function ProductCatalog({ onProductClick }: ProductCatalogProps) {
   const [products] = useState(mockProducts);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
   const [addedToCart, setAddedToCart] = useState<string | null>(null);
   const { addToCart } = useCart();
 
   // Filtrer les produits
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.code.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter === 'all' || product.category === categoryFilter;
-    return matchesSearch && matchesCategory && product.status === 'active';
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.code.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      categoryFilter === "all" || product.category === categoryFilter;
+    return matchesSearch && matchesCategory && product.status === "active";
   });
 
   // Obtenir les catégories uniques
-  const categories = Array.from(new Set(products.map(p => p.category)));
+  const categories = Array.from(new Set(products.map((p) => p.category)));
 
   const handleAddToCart = (product: Product, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -65,8 +80,10 @@ export function ProductCatalog({ onProductClick }: ProductCatalogProps) {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Toutes les catégories</SelectItem>
-                {categories.map(cat => (
-                  <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                {categories.map((cat) => (
+                  <SelectItem key={cat} value={cat}>
+                    {cat}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -76,7 +93,7 @@ export function ProductCatalog({ onProductClick }: ProductCatalogProps) {
 
       {/* Grille de produits */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filteredProducts.map(product => (
+        {filteredProducts.map((product) => (
           <Card
             key={product.id}
             className="cursor-pointer hover:shadow-lg transition-shadow"
@@ -118,7 +135,7 @@ export function ProductCatalog({ onProductClick }: ProductCatalogProps) {
                       Stock: {product.stock}
                     </p>
                   </div>
-                  <Badge variant={product.stock > 0 ? 'default' : 'secondary'}>
+                  <Badge variant={product.stock > 0 ? "default" : "secondary"}>
                     {product.category}
                   </Badge>
                 </div>
@@ -126,12 +143,12 @@ export function ProductCatalog({ onProductClick }: ProductCatalogProps) {
             </CardContent>
             <CardFooter>
               <Button
-                className="w-full bg-gradient-to-r from-emerald-700 to-teal-600"
+                className="w-full bg-linear-to-r from-emerald-700 to-teal-600"
                 onClick={(e) => handleAddToCart(product, e)}
                 disabled={product.stock === 0}
               >
                 <ShoppingCart className="w-4 h-4 mr-2" />
-                {product.stock === 0 ? 'Rupture de stock' : 'Ajouter au panier'}
+                {product.stock === 0 ? "Rupture de stock" : "Ajouter au panier"}
               </Button>
             </CardFooter>
           </Card>

@@ -45,11 +45,11 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-emerald-50 to-teal-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
-            <div className="bg-gradient-to-r from-emerald-700 to-teal-600 text-white p-4 rounded-full">
+            <div className="bg-linear-to-r from-emerald-700 to-teal-600 text-white p-4 rounded-full">
               <Mountain className="w-10 h-10" />
             </div>
           </div>
@@ -102,7 +102,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
               </Alert>
             )}
 
-            <Button type="submit" className="w-full bg-gradient-to-r from-emerald-700 to-teal-600">
+            <Button type="submit" className="w-full bg-linear-to-r from-emerald-700 to-teal-600">
               {isLogin ? 'Se connecter' : "S'inscrire"}
             </Button>
 

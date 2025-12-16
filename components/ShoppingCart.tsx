@@ -1,20 +1,42 @@
-import { useState } from 'react';
-import { useCart } from '../contexts/CartContext';
-import { useAuth } from '../contexts/AuthContext';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Separator } from './ui/separator';
-import { ShoppingCart as ShoppingCartIcon, Trash2, Plus, Minus, CreditCard } from 'lucide-react';
-import { Alert, AlertDescription } from './ui/alert';
-import { mockOrders, Order, OrderItem } from '../data';
+import { useState } from "react";
+import { useCart } from "../contexts/CartContext";
+import { useAuth } from "../contexts/AuthContext";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Separator } from "./ui/separator";
+import {
+  ShoppingCart as ShoppingCartIcon,
+  Trash2,
+  Plus,
+  Minus,
+  CreditCard,
+} from "lucide-react";
+import { Alert, AlertDescription } from "./ui/alert";
+import { mockOrders, Order, OrderItem } from "../data";
 
 interface ShoppingCartProps {
   onCheckout?: (order: Order) => void;
 }
 
 export function ShoppingCart({ onCheckout }: ShoppingCartProps) {
-  const { items, removeFromCart, updateQuantity, clearCart, getSubtotal, getTPS, getTVQ, getTotal } = useCart();
+  const {
+    items,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    getSubtotal,
+    getTPS,
+    getTVQ,
+    getTotal,
+  } = useCart();
   const { user } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -25,11 +47,11 @@ export function ShoppingCart({ onCheckout }: ShoppingCartProps) {
 
     // Simuler le traitement du paiement
     setTimeout(() => {
-      const orderItems: OrderItem[] = items.map(item => ({
+      const orderItems: OrderItem[] = items.map((item) => ({
         productId: item.product.id,
         productName: item.product.name,
         quantity: item.quantity,
-        price: item.product.price
+        price: item.product.price,
       }));
 
       const newOrder: Order = {
@@ -41,10 +63,10 @@ export function ShoppingCart({ onCheckout }: ShoppingCartProps) {
         tps: getTPS(),
         tvq: getTVQ(),
         total: getTotal(),
-        status: 'reception',
-        paymentStatus: 'paid',
+        status: "reception",
+        paymentStatus: "paid",
         paymentAmount: getTotal(),
-        createdAt: new Date()
+        createdAt: new Date(),
       };
 
       mockOrders.push(newOrder);
@@ -78,11 +100,16 @@ export function ShoppingCart({ onCheckout }: ShoppingCartProps) {
         <Card>
           <CardHeader>
             <CardTitle>Panier d'achats</CardTitle>
-            <CardDescription>{items.length} {items.length > 1 ? 'articles' : 'article'}</CardDescription>
+            <CardDescription>
+              {items.length} {items.length > 1 ? "articles" : "article"}
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {items.map(item => (
-              <div key={item.product.id} className="flex gap-4 pb-4 border-b last:border-0">
+            {items.map((item) => (
+              <div
+                key={item.product.id}
+                className="flex gap-4 pb-4 border-b last:border-0"
+              >
                 <img
                   src={item.product.image}
                   alt={item.product.name}
@@ -107,7 +134,9 @@ export function ShoppingCart({ onCheckout }: ShoppingCartProps) {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                      onClick={() =>
+                        updateQuantity(item.product.id, item.quantity - 1)
+                      }
                       disabled={item.quantity <= 1}
                     >
                       <Minus className="w-3 h-3" />
@@ -117,7 +146,10 @@ export function ShoppingCart({ onCheckout }: ShoppingCartProps) {
                       value={item.quantity}
                       onChange={(e) => {
                         const val = parseInt(e.target.value) || 1;
-                        updateQuantity(item.product.id, Math.min(val, item.product.stock));
+                        updateQuantity(
+                          item.product.id,
+                          Math.min(val, item.product.stock)
+                        );
                       }}
                       className="w-16 text-center"
                       min="1"
@@ -126,7 +158,9 @@ export function ShoppingCart({ onCheckout }: ShoppingCartProps) {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                      onClick={() =>
+                        updateQuantity(item.product.id, item.quantity + 1)
+                      }
                       disabled={item.quantity >= item.product.stock}
                     >
                       <Plus className="w-3 h-3" />
@@ -149,7 +183,9 @@ export function ShoppingCart({ onCheckout }: ShoppingCartProps) {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-slate-600">Sous-total</span>
-                <span className="font-semibold">{getSubtotal().toFixed(2)} $</span>
+                <span className="font-semibold">
+                  {getSubtotal().toFixed(2)} $
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-600">TPS (5%)</span>
@@ -170,12 +206,12 @@ export function ShoppingCart({ onCheckout }: ShoppingCartProps) {
           </CardContent>
           <CardFooter>
             <Button
-              className="w-full bg-gradient-to-r from-emerald-700 to-teal-600"
+              className="w-full bg-linear-to-r from-emerald-700 to-teal-600"
               onClick={handleCheckout}
               disabled={isProcessing}
             >
               <CreditCard className="w-4 h-4 mr-2" />
-              {isProcessing ? 'Traitement...' : 'Payer maintenant'}
+              {isProcessing ? "Traitement..." : "Payer maintenant"}
             </Button>
           </CardFooter>
         </Card>

@@ -1,55 +1,68 @@
-import { useState } from 'react';
-import { mockOrders, Order } from '../data';
-import { useAuth } from '../contexts/AuthContext';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Badge } from './ui/badge';
-import { Button } from './ui/button';
-import { Separator } from './ui/separator';
-import { Package, Calendar, CreditCard, ChevronDown, ChevronUp, Star } from 'lucide-react';
+import { useState } from "react";
+import { mockOrders, Order } from "../data";
+import { useAuth } from "../contexts/AuthContext";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import { Separator } from "./ui/separator";
+import {
+  Package,
+  Calendar,
+  CreditCard,
+  ChevronDown,
+  ChevronUp,
+  Star,
+} from "lucide-react";
 
 export function OrderHistory() {
   const { user } = useAuth();
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
-  
-  // Filtrer les commandes pour l'utilisateur connecté
-  const userOrders = mockOrders.filter(order => order.userId === user?.id);
 
-  const getStatusColor = (status: Order['status']) => {
+  // Filtrer les commandes pour l'utilisateur connecté
+  const userOrders = mockOrders.filter((order) => order.userId === user?.id);
+
+  const getStatusColor = (status: Order["status"]) => {
     const colors = {
-      reception: 'bg-blue-100 text-blue-800',
-      preparation: 'bg-yellow-100 text-yellow-800',
-      shipped: 'bg-purple-100 text-purple-800',
-      invoiced: 'bg-orange-100 text-orange-800',
-      paid: 'bg-green-100 text-green-800'
+      reception: "bg-blue-100 text-blue-800",
+      preparation: "bg-yellow-100 text-yellow-800",
+      shipped: "bg-purple-100 text-purple-800",
+      invoiced: "bg-orange-100 text-orange-800",
+      paid: "bg-green-100 text-green-800",
     };
     return colors[status];
   };
 
-  const getStatusLabel = (status: Order['status']) => {
+  const getStatusLabel = (status: Order["status"]) => {
     const labels = {
-      reception: 'Réception',
-      preparation: 'Préparation',
-      shipped: 'Expédiée',
-      invoiced: 'Facturée',
-      paid: 'Payée/Fermée'
+      reception: "Réception",
+      preparation: "Préparation",
+      shipped: "Expédiée",
+      invoiced: "Facturée",
+      paid: "Payée/Fermée",
     };
     return labels[status];
   };
 
-  const getPaymentStatusColor = (status: Order['paymentStatus']) => {
+  const getPaymentStatusColor = (status: Order["paymentStatus"]) => {
     const colors = {
-      paid: 'bg-green-100 text-green-800',
-      pending: 'bg-orange-100 text-orange-800',
-      partial: 'bg-yellow-100 text-yellow-800'
+      paid: "bg-green-100 text-green-800",
+      pending: "bg-orange-100 text-orange-800",
+      partial: "bg-yellow-100 text-yellow-800",
     };
     return colors[status];
   };
 
-  const getPaymentStatusLabel = (status: Order['paymentStatus']) => {
+  const getPaymentStatusLabel = (status: Order["paymentStatus"]) => {
     const labels = {
-      paid: 'Payé',
-      pending: 'En attente',
-      partial: 'Partiel'
+      paid: "Payé",
+      pending: "En attente",
+      partial: "Partiel",
     };
     return labels[status];
   };
@@ -74,27 +87,26 @@ export function OrderHistory() {
         <CardHeader>
           <CardTitle>Historique des commandes</CardTitle>
           <CardDescription>
-            {userOrders.length} {userOrders.length > 1 ? 'commandes' : 'commande'}
+            {userOrders.length}{" "}
+            {userOrders.length > 1 ? "commandes" : "commande"}
           </CardDescription>
         </CardHeader>
       </Card>
 
-      {userOrders.map(order => (
+      {userOrders.map((order) => (
         <Card key={order.id}>
           <CardHeader>
             <div className="flex items-start justify-between">
               <div>
-                <CardTitle className="text-lg">
-                  Commande #{order.id}
-                </CardTitle>
+                <CardTitle className="text-lg">Commande #{order.id}</CardTitle>
                 <CardDescription className="flex items-center gap-2 mt-1">
                   <Calendar className="w-3 h-3" />
-                  {new Date(order.createdAt).toLocaleDateString('fr-CA', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
+                  {new Date(order.createdAt).toLocaleDateString("fr-CA", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
                   })}
                 </CardDescription>
               </div>
@@ -115,10 +127,13 @@ export function OrderHistory() {
               <Button
                 variant="ghost"
                 className="w-full justify-between p-0 h-auto"
-                onClick={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
+                onClick={() =>
+                  setExpandedOrder(expandedOrder === order.id ? null : order.id)
+                }
               >
                 <span className="font-semibold">
-                  {order.items.length} {order.items.length > 1 ? 'articles' : 'article'}
+                  {order.items.length}{" "}
+                  {order.items.length > 1 ? "articles" : "article"}
                 </span>
                 {expandedOrder === order.id ? (
                   <ChevronUp className="w-4 h-4" />
@@ -130,7 +145,10 @@ export function OrderHistory() {
               {expandedOrder === order.id && (
                 <div className="mt-4 space-y-3">
                   {order.items.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center p-3 bg-slate-50 rounded">
+                    <div
+                      key={idx}
+                      className="flex justify-between items-center p-3 bg-slate-50 rounded"
+                    >
                       <div>
                         <p className="font-medium">{item.productName}</p>
                         <p className="text-sm text-slate-500">
@@ -169,16 +187,18 @@ export function OrderHistory() {
                   {order.total.toFixed(2)} $
                 </span>
               </div>
-              {order.paymentStatus === 'partial' && (
+              {order.paymentStatus === "partial" && (
                 <div className="flex justify-between text-sm text-orange-600">
                   <span>Montant payé</span>
                   <span>{order.paymentAmount.toFixed(2)} $</span>
                 </div>
               )}
-              {order.paymentStatus === 'partial' && (
+              {order.paymentStatus === "partial" && (
                 <div className="flex justify-between text-sm font-semibold text-orange-600">
                   <span>Solde dû</span>
-                  <span>{(order.total - order.paymentAmount).toFixed(2)} $</span>
+                  <span>
+                    {(order.total - order.paymentAmount).toFixed(2)} $
+                  </span>
                 </div>
               )}
             </div>
@@ -186,15 +206,17 @@ export function OrderHistory() {
             {/* Évaluation */}
             {order.rating && (
               <div className="flex items-center gap-2 pt-2 border-t">
-                <span className="text-sm text-slate-600">Votre évaluation:</span>
+                <span className="text-sm text-slate-600">
+                  Votre évaluation:
+                </span>
                 <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map(star => (
+                  {[1, 2, 3, 4, 5].map((star) => (
                     <Star
                       key={star}
                       className={`w-4 h-4 ${
                         star <= order.rating!
-                          ? 'fill-yellow-400 text-yellow-400'
-                          : 'text-slate-300'
+                          ? "fill-yellow-400 text-yellow-400"
+                          : "text-slate-300"
                       }`}
                     />
                   ))}

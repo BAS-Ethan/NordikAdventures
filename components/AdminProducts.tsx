@@ -1,16 +1,43 @@
-import { useState } from 'react';
-import { mockProducts, Product } from '../data';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Textarea } from './ui/textarea';
-import { Badge } from './ui/badge';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
-import { Plus, Edit, Power, AlertTriangle, Package } from 'lucide-react';
-import { Alert, AlertDescription } from './ui/alert';
+import { useState } from "react";
+import { mockProducts, Product } from "../data";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { Textarea } from "./ui/textarea";
+import { Badge } from "./ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./ui/table";
+import { Plus, Edit, Power, AlertTriangle, Package } from "lucide-react";
+import { Alert, AlertDescription } from "./ui/alert";
 
 export function AdminProducts() {
   const [products, setProducts] = useState(mockProducts);
@@ -25,10 +52,10 @@ export function AdminProducts() {
     } else {
       setEditingProduct(null);
       setFormData({
-        status: 'active',
+        status: "active",
         stock: 0,
         reorderLevel: 5,
-        price: 0
+        price: 0,
       });
     }
     setIsDialogOpen(true);
@@ -37,24 +64,30 @@ export function AdminProducts() {
   const handleSave = () => {
     if (editingProduct) {
       // Modifier le produit existant
-      setProducts(products.map(p =>
-        p.id === editingProduct.id ? { ...editingProduct, ...formData } as Product : p
-      ));
+      setProducts(
+        products.map((p) =>
+          p.id === editingProduct.id
+            ? ({ ...editingProduct, ...formData } as Product)
+            : p
+        )
+      );
     } else {
       // Ajouter un nouveau produit
       const newProduct: Product = {
         id: `p${products.length + 1}`,
-        code: formData.code || '',
-        name: formData.name || '',
-        description: formData.description || '',
-        category: formData.category || '',
+        code: formData.code || "",
+        name: formData.name || "",
+        description: formData.description || "",
+        category: formData.category || "",
         price: formData.price || 0,
         stock: formData.stock || 0,
         reorderLevel: formData.reorderLevel || 5,
-        supplier: formData.supplier || '',
-        deliveryTime: formData.deliveryTime || '',
-        status: formData.status || 'active',
-        image: formData.image || 'https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=500'
+        supplier: formData.supplier || "",
+        deliveryTime: formData.deliveryTime || "",
+        status: formData.status || "active",
+        image:
+          formData.image ||
+          "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=500",
       };
       setProducts([...products, newProduct]);
     }
@@ -64,14 +97,18 @@ export function AdminProducts() {
   };
 
   const toggleProductStatus = (productId: string) => {
-    setProducts(products.map(p =>
-      p.id === productId
-        ? { ...p, status: p.status === 'active' ? 'inactive' : 'active' }
-        : p
-    ));
+    setProducts(
+      products.map((p) =>
+        p.id === productId
+          ? { ...p, status: p.status === "active" ? "inactive" : "active" }
+          : p
+      )
+    );
   };
 
-  const lowStockProducts = products.filter(p => p.stock <= p.reorderLevel && p.status === 'active');
+  const lowStockProducts = products.filter(
+    (p) => p.stock <= p.reorderLevel && p.status === "active"
+  );
 
   return (
     <div className="space-y-6">
@@ -80,9 +117,12 @@ export function AdminProducts() {
         <Alert variant="destructive">
           <AlertTriangle className="h-4 w-4" />
           <AlertDescription>
-            <strong>{lowStockProducts.length} produit(s) nécessitent un réapprovisionnement:</strong>
+            <strong>
+              {lowStockProducts.length} produit(s) nécessitent un
+              réapprovisionnement:
+            </strong>
             <ul className="mt-2 space-y-1 text-sm">
-              {lowStockProducts.slice(0, 3).map(p => (
+              {lowStockProducts.slice(0, 3).map((p) => (
                 <li key={p.id}>
                   {p.name} ({p.code}) - Stock: {p.stock} unités
                 </li>
@@ -100,12 +140,14 @@ export function AdminProducts() {
           <div className="flex items-center justify-between">
             <div>
               <CardTitle>Gestion des produits</CardTitle>
-              <CardDescription>{products.length} produits au catalogue</CardDescription>
+              <CardDescription>
+                {products.length} produits au catalogue
+              </CardDescription>
             </div>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
                 <Button
-                  className="bg-gradient-to-r from-emerald-700 to-teal-600"
+                  className="bg-linear-to-r from-emerald-700 to-teal-600"
                   onClick={() => handleOpenDialog()}
                 >
                   <Plus className="w-4 h-4 mr-2" />
@@ -115,7 +157,7 @@ export function AdminProducts() {
               <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                   <DialogTitle>
-                    {editingProduct ? 'Modifier le produit' : 'Nouveau produit'}
+                    {editingProduct ? "Modifier le produit" : "Nouveau produit"}
                   </DialogTitle>
                   <DialogDescription>
                     Remplissez les informations du produit
@@ -127,8 +169,10 @@ export function AdminProducts() {
                       <Label htmlFor="code">Code produit *</Label>
                       <Input
                         id="code"
-                        value={formData.code || ''}
-                        onChange={(e) => setFormData({ ...formData, code: e.target.value })}
+                        value={formData.code || ""}
+                        onChange={(e) =>
+                          setFormData({ ...formData, code: e.target.value })
+                        }
                         placeholder="TENT-001"
                       />
                     </div>
@@ -136,8 +180,10 @@ export function AdminProducts() {
                       <Label htmlFor="category">Catégorie *</Label>
                       <Input
                         id="category"
-                        value={formData.category || ''}
-                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                        value={formData.category || ""}
+                        onChange={(e) =>
+                          setFormData({ ...formData, category: e.target.value })
+                        }
                         placeholder="Tentes"
                       />
                     </div>
@@ -147,8 +193,10 @@ export function AdminProducts() {
                     <Label htmlFor="name">Nom du produit *</Label>
                     <Input
                       id="name"
-                      value={formData.name || ''}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      value={formData.name || ""}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
                       placeholder="Tente 4 Saisons Alpine Pro"
                     />
                   </div>
@@ -157,8 +205,13 @@ export function AdminProducts() {
                     <Label htmlFor="description">Description</Label>
                     <Textarea
                       id="description"
-                      value={formData.description || ''}
-                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                      value={formData.description || ""}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          description: e.target.value,
+                        })
+                      }
                       placeholder="Description détaillée du produit..."
                       rows={3}
                     />
@@ -171,8 +224,13 @@ export function AdminProducts() {
                         id="price"
                         type="number"
                         step="0.01"
-                        value={formData.price || ''}
-                        onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+                        value={formData.price || ""}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            price: parseFloat(e.target.value),
+                          })
+                        }
                       />
                     </div>
                     <div className="space-y-2">
@@ -180,8 +238,13 @@ export function AdminProducts() {
                       <Input
                         id="stock"
                         type="number"
-                        value={formData.stock || ''}
-                        onChange={(e) => setFormData({ ...formData, stock: parseInt(e.target.value) })}
+                        value={formData.stock || ""}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            stock: parseInt(e.target.value),
+                          })
+                        }
                       />
                     </div>
                   </div>
@@ -192,16 +255,26 @@ export function AdminProducts() {
                       <Input
                         id="reorderLevel"
                         type="number"
-                        value={formData.reorderLevel || ''}
-                        onChange={(e) => setFormData({ ...formData, reorderLevel: parseInt(e.target.value) })}
+                        value={formData.reorderLevel || ""}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            reorderLevel: parseInt(e.target.value),
+                          })
+                        }
                       />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="deliveryTime">Délai de livraison *</Label>
                       <Input
                         id="deliveryTime"
-                        value={formData.deliveryTime || ''}
-                        onChange={(e) => setFormData({ ...formData, deliveryTime: e.target.value })}
+                        value={formData.deliveryTime || ""}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            deliveryTime: e.target.value,
+                          })
+                        }
                         placeholder="3-5 jours"
                       />
                     </div>
@@ -212,16 +285,20 @@ export function AdminProducts() {
                       <Label htmlFor="supplier">Fournisseur *</Label>
                       <Input
                         id="supplier"
-                        value={formData.supplier || ''}
-                        onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
+                        value={formData.supplier || ""}
+                        onChange={(e) =>
+                          setFormData({ ...formData, supplier: e.target.value })
+                        }
                         placeholder="Mountain Gear Inc."
                       />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="status">Statut</Label>
                       <Select
-                        value={formData.status || 'active'}
-                        onValueChange={(value: 'active' | 'inactive') => setFormData({ ...formData, status: value })}
+                        value={formData.status || "active"}
+                        onValueChange={(value: "active" | "inactive") =>
+                          setFormData({ ...formData, status: value })
+                        }
                       >
                         <SelectTrigger>
                           <SelectValue />
@@ -238,21 +315,26 @@ export function AdminProducts() {
                     <Label htmlFor="image">URL de l'image</Label>
                     <Input
                       id="image"
-                      value={formData.image || ''}
-                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                      value={formData.image || ""}
+                      onChange={(e) =>
+                        setFormData({ ...formData, image: e.target.value })
+                      }
                       placeholder="https://..."
                     />
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsDialogOpen(false)}
+                  >
                     Annuler
                   </Button>
                   <Button
                     onClick={handleSave}
-                    className="bg-gradient-to-r from-emerald-700 to-teal-600"
+                    className="bg-linear-to-r from-emerald-700 to-teal-600"
                   >
-                    {editingProduct ? 'Enregistrer' : 'Créer'}
+                    {editingProduct ? "Enregistrer" : "Créer"}
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -273,9 +355,11 @@ export function AdminProducts() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {products.map(product => (
+              {products.map((product) => (
                 <TableRow key={product.id}>
-                  <TableCell className="font-mono text-sm">{product.code}</TableCell>
+                  <TableCell className="font-mono text-sm">
+                    {product.code}
+                  </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <img
@@ -298,8 +382,12 @@ export function AdminProducts() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={product.status === 'active' ? 'default' : 'secondary'}>
-                      {product.status === 'active' ? 'Actif' : 'Inactif'}
+                    <Badge
+                      variant={
+                        product.status === "active" ? "default" : "secondary"
+                      }
+                    >
+                      {product.status === "active" ? "Actif" : "Inactif"}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
@@ -316,7 +404,13 @@ export function AdminProducts() {
                         size="sm"
                         onClick={() => toggleProductStatus(product.id)}
                       >
-                        <Power className={`w-3 h-3 ${product.status === 'active' ? 'text-red-500' : 'text-green-500'}`} />
+                        <Power
+                          className={`w-3 h-3 ${
+                            product.status === "active"
+                              ? "text-red-500"
+                              : "text-green-500"
+                          }`}
+                        />
                       </Button>
                     </div>
                   </TableCell>
